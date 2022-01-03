@@ -1,6 +1,7 @@
 import { bind } from "bluebird";
 import React, { Component } from "react";
 import Square from "../Square/Square";
+import { calculateWinner } from "../../utils";
 
 class Board extends Component {
     constructor(props) {
@@ -14,6 +15,11 @@ class Board extends Component {
 
     handleSquareClick(i) {
         const squares = [...this.state.squares];
+
+        if (calculateWinner(squares) || squares[i]) {
+            return;
+        }
+
         squares[i] = this.isCurrentX ? `X` : `O`;
 
         this.setState({ squares });
@@ -30,7 +36,11 @@ class Board extends Component {
     }
 
     render() {
-        const status = `Next player: X`;
+        const winner = calculateWinner(this.state.squares);
+
+        const status = winner
+            ? `The winner is ${winner}`
+            : `Next player is ${this.isCurrentX ? `X` : `O`}`;
 
         return (
             <div>
