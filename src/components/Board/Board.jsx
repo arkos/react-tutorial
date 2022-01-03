@@ -8,16 +8,16 @@ class Board extends Component {
         this.state = {
             squares: Array(9).fill(null),
         };
+        this.isCurrentX = true;
         this.handleSquareClick = this.handleSquareClick.bind(this);
     }
 
     handleSquareClick(i) {
-        console.log(`Square ${i} was clicked`);
-
         const squares = [...this.state.squares];
-        squares[i] = `X`;
+        squares[i] = this.isCurrentX ? `X` : `O`;
 
         this.setState({ squares });
+        this.isCurrentX = !this.isCurrentX;
     }
 
     renderSquare(i) {
